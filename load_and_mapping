@@ -1,5 +1,5 @@
+## Loading json files
 # Linux
-
 curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/bank/account/_bulk?pretty' --data-binary @accounts.json
 curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/shakespeare/doc/_bulk?pretty' --data-binary @shakespeare_6.0.json
 curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty' --data-binary @logs.jsonl
@@ -8,6 +8,9 @@ curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty
 Invoke-RestMethod "http://localhost:9200/bank/account/_bulk?pretty" -Method Post -ContentType 'application/x-ndjson' -InFile "accounts.json"
 Invoke-RestMethod "http://localhost:9200/shakespeare/doc/_bulk?pretty" -Method Post -ContentType 'application/x-ndjson' -InFile "shakespeare_6.0.json"
 Invoke-RestMethod "http://localhost:9200/_bulk?pretty" -Method Post -ContentType 'application/x-ndjson' -InFile "logs.jsonl"
+
+
+
 
 
 # Mapping Dataset Shakespeare
@@ -40,3 +43,6 @@ PUT /shakespeare
  }
 }
 
+
+curl -XGET localhost:9200/_all/_mapping?pretty
+curl -XGET localhost:9200/_all/_mapping | python -c 'import json,sys; indices=json.load(sys.stdin); indices = [type for index in indices for type in indices.get(index).get("mappings")]; print list(indices);'
