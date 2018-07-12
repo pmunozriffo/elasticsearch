@@ -1,6 +1,9 @@
 ## CAT Search tips
 ## Commons Options -> https://www.elastic.co/guide/en/elasticsearch/reference/current/common-options.html#time-units
 
+#Specific Index "bank"
+curl '192.168.60.11:9200/bank/_search?q=*&pretty'
+
 # all columns
  curl -XGET 'http://192.168.60.11:9200/_cat/nodes?h=*&v&pretty'
 
@@ -10,8 +13,27 @@
 # Human size Readable
 curl -XGET '192.168.60.11:9200/_cat/indices?pretty&bytes=b' | sort -rnk8
 
+
 # Error Trace
 curl -XGET '192.168.60.11:9200/twitter/_search?size=surprise_me&error_trace=true&pretty'
 
 # Flat Settings
 curl -XGET '192.168.60.11:9200/twitter/_settings?flat_settings=true&pretty'
+
+# Response as text, json, smile, yaml or cbor
+curl '192.168.60.11:9200/_cat/indices?format=json&pretty'
+curl '192.168.60.11:9200/_cat/indices?format=yaml&pretty'
+
+# Sort 
+# s=column1,column2:desc,column3, sorted in asc order by column1, desc column2
+
+# Response Filtering
+curl '192.168.60.11:9200/_search?q=elasticsearch&filter_path=took,hits.hits._id,hits.hits._score&pretty'
+curl '192.168.60.11:9200/_search?q=elasticsearch&filter_path=took,hits.hits._source.system*&pretty'
+curl '192.168.60.11:9200/_search?q=elasticsearch&filter_path=took,hits.**.start_time&pretty'
+GET /bank/_search?q=*&filter_path=hits.**.age,**._id
+
+# Exclude one or more fields
+curl '192.168.60.11:9200/_count?pretty&filter_path=-_shards'
+curl '192.168.60.11:9200/bank/_search?q=*&pretty&filter_path=-_balance'
+GET /bank/_search?q=*&pretty&filter_path=-hits.**.age,-**._id
