@@ -1,0 +1,17 @@
+## CAT Search tips
+## Commons Options -> https://www.elastic.co/guide/en/elasticsearch/reference/current/common-options.html#time-units
+
+# all columns
+ curl -XGET 'http://192.168.60.11:9200/_cat/nodes?h=*&v&pretty'
+
+# to get all headers (or aliases) starting with queue
+ curl -XGET 'http://192.168.60.11:9200/_cat/thread_pool?h=ip,queue*&v&pretty'
+ 
+# Human size Readable
+curl -XGET '192.168.60.11:9200/_cat/indices?pretty&bytes=b' | sort -rnk8
+
+# Error Trace
+curl -XGET '192.168.60.11:9200/twitter/_search?size=surprise_me&error_trace=true&pretty'
+
+# Flat Settings
+curl -XGET '192.168.60.11:9200/twitter/_settings?flat_settings=true&pretty'
