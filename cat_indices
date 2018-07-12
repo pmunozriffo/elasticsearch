@@ -1,0 +1,22 @@
+#Help
+GET /_cat/indices?help
+
+# Indices
+GET /_cat/indices?v&health=yellow
+curl -X GET "localhost:9200/_cat/indices?v&health=yellow"
+
+#Indices - Which index has the largest number of documents?
+GET /_cat/indices?v&s=docs.count:desc
+
+# How many merge operations have the shards completed
+GET /_cat/indices/twitter?pri&v&h=health,index,pri,rep,docs.count,mt
+GET /_cat/indices/metricbeat*?pri&v&h=health,index,pri,rep,docs.count,mt
+curl -XGET 'http://192.168.60.11:9200/_cat/indices/metricbeat*?pri&v&pretty'
+
+# How much memory is used per index?
+GET /_cat/indices?v&h=i,tm&s=tm:desc
+curl -XGET 'http://192.168.60.11:9200/_cat/indices?v&pretty&s=tm:desc'
+
+# Param Example geto
+curl -XGET 'http://192.168.60.11:9200/_cat/indices?v&pretty&h=geto,tm,health,status,index,docs.count,size&s=tm:desc'
+
