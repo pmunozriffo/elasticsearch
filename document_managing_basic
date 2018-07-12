@@ -1,0 +1,69 @@
+# Create Index
+PUT /product?pretty
+
+#Add document
+POST /product/default
+{
+  "name": "Processing Events with Logstash",
+  "instructor": {
+    "firstname": "Patricio",
+    "lastname": "Muñoz Riffo"
+  }
+}
+
+POST /product/default/1
+{
+  "name": "Complete Guide to Logstash",
+  "instructor": {
+    "firstname": "Patricio",
+    "lastname": "Muñoz Riffo"
+  }
+}
+
+# Search a document
+
+GET /product/default/1
+
+#Solo el contenido del documento
+GET /product/default/1/_source 
+
+
+# Replacing Document
+
+PUT /product/default/1
+{
+  "name": "Complete Guide to Elasticsearch",
+  "price": 195,
+  "instructor": {
+    "firstName": "Patricio Eduardo",
+    "lastName": "Muñoz Riffo"
+  }
+}
+
+
+# Updating Document and add field
+
+POST /product/default/1/_update
+{
+  "doc": { "price": 95, "tags": [ "Elasticsearch", "Search Engine" ] }
+}
+
+
+# Scripting updating 
+# Subir el precio en 10 al libro
+POST /product/default/1/_update
+{
+  "script": "ctx._source.price += 10"
+}
+
+#Upserts
+# Si el documento existe, aumenta el precio en 5
+# si el documento no existe (fue borrado), solo se agrega el documento, pero con el precio de 100
+
+POST /product/default/1/_update
+{
+    "script" : "ctx._source.price += 5",
+    "upsert" : {
+        "price" : 100
+    }
+}
