@@ -4,6 +4,15 @@ GET /_cat/indices?help
 # Indices
 GET /_cat/indices?v&health=yellow
 curl -X GET "localhost:9200/_cat/indices?v&health=yellow"
+curl -s 'http://localhost:9200/_cat/indices' | head -5 | cut -d\  -f3
+
+# Status Yellow
+GET _cat/indices/?v&health=yellow
+
+# Order by status (closed/open)
+GET /_cat/indices?v&s=status:asc
+curl -s -XGET 'http://hdp01:9200/_cat/indices?h=status,index' | awk '$1 == "close" {print $2}'
+
 
 #Indices - Which index has the largest number of documents?
 GET /_cat/indices?v&s=docs.count:desc
@@ -20,3 +29,5 @@ curl -XGET 'http://192.168.60.11:9200/_cat/indices?v&pretty&s=tm:desc'
 # Param Example geto
 curl -XGET 'http://192.168.60.11:9200/_cat/indices?v&pretty&h=geto,tm,health,status,index,docs.count,size&s=tm:desc'
 
+# Health and Indices
+curl -XGET 'http://localhost:9200/_cluster/health?level=indices'
